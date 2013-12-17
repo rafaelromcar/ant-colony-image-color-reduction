@@ -20,90 +20,59 @@
 
 \end{abstract}
 
-\begin{keyword} palabras clave (más o menos, cinco palabras que clasifiquen el trabajo) \sep pid \sep instrucciones\sep trabajo \sep imagen digital \end{keyword}
+\begin{keyword} palabras clave (más o menos, cinco palabras que clasifiquen el trabajo) \sep \sep \sep \sep \end{keyword}
 \end{frontmatter}
 
 \section{Introducción}
 
+Explicación del contexto del algoritmo y de su utilidad.\\
 
 \section{Planteamiento teórico}
+A continuación pasaremos a explicar el fundamento teórico del algoritmo para resolver el problema de reducción de colores en una imagen que estamos presentando.\\
 
-\subsection{EJEMPLO SUBSECCION}
+Este algoritmo divide el problema de la reducción de colores en tres funcionalidades diferentes: hacer una clasificación de una cantidad significativa de píxeles de la imagen, elegir el mas representativos de cada uno de los grupos creados y sustituir los colores de la imagen con estos píxeles seleccionados.\\
 
-ESTO DE AQUÍ ES PARA LISTAR DOCUMENTOS Y MOSTRARLOS DE MANERA CONCRETA. MIRA EL EJEMPO.PDF y EJEMPLO.TEX PARA VER TODO BIEN.
-\begin{itemize}
-\item \url{Documentacion.zip}.
+Para llevar esto a cabo, utiliza una variación del algoritmo de clasificación de datos basado en colonia de hormigas de Handl, que realiza la primera de las funcionalidades para datos conjuntos de datos generales. Estas variaciones, además de añadir las dos nuevas funcionalidades, también toma en cuenta las características propias de las imágenes, como son la similitud entre píxeles vecinos y las características específicas de estos.\\
 
-Documentacion.zip debe contener el fichero \url{.pdf} correspondiente a la documentación (también el \url{.tex} y las figuras \url{.png}, si se ha escrito en Latex). Además, se debe incluir un resumen en un archivo tipo texto \url{.txt} que describa lo más fielmente posible el trabajo realizado (no el propuesto inicialmente, que podría ser distinto), de más de 70 palabras y menos de 250.     
- 
-\item \url{Codigo.zip}. Debe contener todo el código fuente utilizado.
-\item \url {Ejecutable.zip}. Debe contener la aplicación junto con todos los archivos necesarios para su ejecución de forma que no dé errores de compilación. 
-Si es necesario, debe contener un leeme.txt con instrucciones para ejecutar la aplicación.
-Se debe incluir una {\bf carpeta con imágenes de muestra}. 
+El algoritmo de Handl tiene 3 fases. En la primera hace un primer preprocesamiento para obtener un conjunto de clases (conjuntos pequeños de datos similares). Después coge datos al azar del conjunto completo dado y los coloca en las clases más similares a ellos. De esta forma crea un conjunto de pequeñas clases de objetos similares con las que, tras un proceso de unión y refinamiento, se obtienen la clasificación buscada.\\
 
-\end{itemize}
+\subsection{Clasificación de píxles}
+Esta es la funcionalidad en la que destaca nuestro método ya que el uso de inteligencia artificial a través del método de la colonia de hormigas otorga un resultado de mayor calidad que otros métodos como veremos más adelante.i\\
+
+Se desarrolla de forma muy parecida a la descrita anteriormente en el algoritmo de Handl, pero con algunas variaciones tanto en la estructura de los datos como en el procesado. \\
+
+Para nuestro caso específico se cambian dos estructuras usadas en el algoritmo base, la primera es el concepto de clase, conjuntos de datos con los que se comparan los píxeles seleccionados, que en nuestro caso será sustituido por la memoria de la hormiga, siendo esta un conjunto del mismo tamaño que la paleta de colores deseada que contendrá píxeles y las posiciones de los mismos. La otra variación en la estructura de datos se encuentra en la imagen que se procesa, ya que en nuestro caso cada posición de la imagen podrá estar vacía, contener un píxel o una pila de píxeles.\\
+
+Las divergencias en el procesado son sencillas, en nuestro algoritmo se hace un doble procesado, comparando en primer lugar el píxel con la memoria de la hormiga y en caso de que no se encuentre ningún elemento similar en esta, se procede a buscar en las posiciones cercanas al píxel, haciendo que la hormiga se desplace por la imagen buscando un píxel parecido al suyo. \\
+
+De esta forma nuestro algoritmo de clasificación repite N veces los siguientes pasos:\\
+\begin{enumerate}
+    \item Elige un píxel al azar.\\
+    \item Busca un elemento parecido en la memoria de la hormiga\\
+    \item SI lo encuentra coloca el píxel seleccionado en la pila que se encuentra en la posición de este elemento en la imagen\\
+    \item SI NO, compara el píxel seleccionado con los elementos vecinos a él y si encuentra uno similar se añade a la pila de este.\\
+\end{enumerate}
+De esta forma, tras iterar un número determinado de veces se podrá encontrar la clasificación buscada en las posiciones a las que apuntan los elementos de la memoria de la hormiga.\\
+
+\subsection{Elección y Sustitución de los colores a  partir de los clusters}
+Una vez clasificados los colores por el método anterior, los otros dos pasos son sencillos y computacionalmente muy rápidos. Por esta razón hemos considerado que durante la experimentación usaremos diversos métodos estadísticos para llevar a cabo estas funcionalidades.\\
+
+En el primer caso debemos encontrar el píxel más significativo de un conjunto dado, para ello realizaremos experimentos usando distintas medidas de tendencia general, como la mediana y varios tipos de medias.\\
+
+En el caso de la sustitución de colores no será necesaria este método tan riguroso para encontrar la medida, ya que esta funcionalidad requiere una función que calcule la divergencia entre dos píxeles diferentes y para ello podemos utilizar la misma función de comparación de píxeles que se usa durante el algoritmo.\\
+
+\subsection{Detalles sobre los planteamientos matemáticos}
 
 \section{Resolución Práctica}
-OTRA FORMA DE METER ITEMS EN PAN LISTA DE ARRIBA A ABAJO
-
-\begin{enumerate}
-\item   Resumen.
-\item  Introducción.
-\item   Planteamiento teórico.
-\item   Resolución práctica.
-\item Experimentación. 
-\item    Manual de usuario.
-\item Conclusiones.
-\item Referencias.
-\item Anexo: Tabla de tiempos. 
-\end{enumerate}
 
 \section{Experimentación}
 
-
 \section{Manual de usuario}
-
 
 \section{Conclusiones}
 
-
-
 \section{Referencias}
 
-Las referencias se citan así:
-bla, bla \cite{clave:revista}, bla, bla \cite{clave:libro}. La bibliografía
-debe seguir el estilo de este documento. A continuación aparecen dos ejemplos de referencias bibliográficas: un artículo en una revista y un libro.
-
-\begin{verbatim}
-\begin{thebibliography}{9}
-\bibitem{clave:revista}
-Y. O. Mismo, ``Algún trabajo relacionado", \emph{Publicación Periódica}, 
-Vol. 17, pp. 1-100, 1997.
-
-\bibitem{clave:libro}
-U. N. Experto, \emph{Un libro que escribió}, Editorial, 1996.
-\end{thebibliography}
-\end{verbatim}
-
-El resultado de estos ejemplos puede verse a continuación, con las referencias ordenadas alfabéticamente por autores.
-
-
-
-\begin{thebibliography}{10}
-\bibitem{clave:libro}
-U. N. Experto, \emph{Un libro que escribió},
-Editorial, 1996.
-
-\bibitem{clave:revista}
-Y. O. Mismo,
-``Algún trabajo relacionado'',
-\emph{Publicación Periódica}, Vol. 17, pp. 1-100, 1997.
-
-\bibitem{clave:url}
-\url{http://laojamientos.us.es/gotocma/pid}
-
-
-\end{thebibliography}
 \newpage
 \noindent {\bf Anexo I: Tabla de tiempos}
 
