@@ -19,8 +19,8 @@ def initialize(imageURL):
 	memTh= 35
 	x = 20 
 	y = 10
-	m = matrixImage.size[0]
-	n = matrixImage.size[1]
+	n = matrixImage.size[0]
+	m = matrixImage.size[1]
 	nIt1 = m*n*Y/100 
 	kRange =(m+n)*x/100
 	image = Image.open(imageURL)
@@ -31,11 +31,20 @@ def initialize(imageURL):
 			matrixHeaps[i][j] = Array(matrixImage[i][j])
 	return matrixHeaps, alpha, dropTh, memTh, nIt1, kRange
 	
-def pixelSelect():
+def pixelSelect(matrixHeaps):
     '''
     Select a random position with a unless a pixel in his heap.
     '''
-
+    n = matrixHeaps.size[0]-1
+    m = matrixHeaps.size[1]-1
+    i = random.randint(0,n)
+    j = random.randint(0,m)
+    while not matrixHeaps[i][j]:
+		i = random.randint(0,n)
+		j = random.randint(0,m)
+	position = (i,j)
+    return position
+    
 def antMemory(position):
     '''
     Add the heap position of the actual heap to the ant memory if it is bigger than 
