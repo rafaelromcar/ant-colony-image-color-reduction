@@ -8,9 +8,9 @@
 \begin{document}
 \begin{frontmatter}
 
-\title{ReducciÛn del color mediante colonias de hormigas}
-\author{Neira Ayuso, ¡lvaro}\\
-\author{Rivas MÈndez, Ignacio}\\
+\title{Reducci√≥n del color mediante colonias de hormigas}
+\author{Neira Ayuso, √Ålvaro}\\
+\author{Rivas M√©ndez, Ignacio}\\
 \author{Romero Carmona, Rafael}\\
 
 \maketitle
@@ -20,52 +20,83 @@
 
 \end{abstract}
 
-\begin{keyword} palabras clave (m·s o menos, cinco palabras que clasifiquen el trabajo) \sep \sep \sep \sep \end{keyword}
+\begin{keyword} palabras clave (m√°s o menos, cinco palabras que clasifiquen el trabajo) \sep \sep \sep \sep \end{keyword}
 \end{frontmatter}
 
-\section{IntroducciÛn}
+\section{Introducci√≥n}
 
-ExplicaciÛn del contexto del algoritmo y de su utilidad.\\
+Durante el siguiente art√≠culo se explicar√° un m√©todo para la reducci√≥n del n√∫mero de colores en im√°genes usando un algoritmo basado en colonias de hormigas para la generaci√≥n de la nueva paleta de color.\\
 
-\section{Planteamiento teÛrico}
-A continuaciÛn pasaremos a explicar el fundamento teÛrico del algoritmo para resolver el problema de reducciÛn de colores en una imagen que estamos presentando.\\
+Los algoritmos de reducci√≥n de colores tienen dos fases b√°sicas, la primera en la que se calcula una paleta de color nueva y en la segunda en la que se intercambian los colores de la imagen por los de esta paleta.\\
 
-Este algoritmo divide el problema de la reducciÛn de colores en tres funcionalidades diferentes: hacer una clasificaciÛn de una cantidad significativa de pÌxeles de la imagen, elegir el mas representativos de cada uno de los grupos creados y sustituir los colores de la imagen con estos pÌxeles seleccionados.\\
+En nuestro caso se puede dividir el primer paso en otros dos, clasificaci√≥n de los colores de la imagen en conjuntos y elecci√≥n del color mas representativo de cada conjunto.\\
 
-Para llevar esto a cabo, utiliza una variaciÛn del algoritmo de clasificaciÛn de datos basado en colonia de hormigas de Handl, que realiza la primera de las funcionalidades para datos conjuntos de datos generales. Estas variaciones, adem·s de aÒadir las dos nuevas funcionalidades, tambiÈn toma en cuenta las caracterÌsticas propias de las im·genes, como son la similitud entre pÌxeles vecinos y las caracterÌsticas especÌficas de estos.\\
+Es precisamente en la clasificaci√≥n de los colores de la imagen en la que se aprovecha la eficiencia de los algoritmos de clasificaci√≥n basados en colonias de hormigas. Estos algoritmo bioinspirados de inteligencia artificial se distinguen por dar resultados cercanos a la soluci√≥n √≥ptima de forma r√°pida a problemas computacionalmente duros.\\
 
-El algoritmo de Handl tiene 3 fases. En la primera hace un primer preprocesamiento para obtener un conjunto de clases (conjuntos pequeÒos de datos similares). DespuÈs coge datos al azar del conjunto completo dado y los coloca en las clases m·s similares a ellos. De esta forma crea un conjunto de pequeÒas clases de objetos similares con las que, tras un proceso de uniÛn y refinamiento, se obtienen la clasificaciÛn buscada.\\
+Hay dos tipos de algoritmos basados en colonias de hormigas, y su diferencia principal radica en que usen o no feromonas. Estas feromonas se encargan de que una hormiga tenga mas posibilidades de seguir el camino que han seguido una hormiga anterior. \\
 
-\subsection{ClasificaciÛn de pÌxles}
-Esta es la funcionalidad en la que destaca nuestro mÈtodo ya que el uso de inteligencia artificial a travÈs del mÈtodo de la colonia de hormigas otorga un resultado de mayor calidad que otros mÈtodos como veremos m·s adelante.i\\
+En nuestro caso al ser un algoritmo de clasificaci√≥n no son necesarias estas feromonas ya que la funci√≥n de las hormigas en recoger un elemento y moverlo de una posici√≥n a otra siguiendo un camino, que sera descrito por los elementos de la imagen, no por la ruta seguida por las hormigas anteriores. \\
+
+Este m√©todo de clasificaci√≥n basado en colonia de hormigas sin uso de feromonas fue desarrollado por Handl y Meyer en 2002 y ser√° la base de nuestro algoritmo, aunque se le introducir√° un elemento que tiene el m√©todo de Lumer y Faieta en 1994, la memoria de la hormiga, que ayudar√° a reducir el tiempo de convergencia del algoritmo.\\
+
+Uniendo estos elementos se probar√° que se consiguen mejores resultados de mayor calidad que con otros algoritmos de reducci√≥n de colores existentes como son el m√©todo de Bing, el C-means, Centre-cut y Octree\\
+
+\section{Planteamiento te√≥rico}
+A continuaci√≥n pasaremos a explicar el fundamento te√≥rico del algoritmo para resolver el problema de reducci√≥n de colores en una imagen que estamos presentando.\\
+
+Este algoritmo divide el problema de la reducci√≥n de colores en tres funcionalidades diferentes: hacer una clasificaci√≥n de una cantidad significativa de p√≠xeles de la imagen, elegir el mas representativos de cada uno de los grupos creados y sustituir los colores de la imagen con estos p√≠xeles seleccionados.\\
+
+Para llevar esto a cabo, utiliza una variaci√≥n del algoritmo de clasificaci√≥n de datos basado en colonia de hormigas de Handl, que realiza la primera de las funcionalidades para datos conjuntos de datos generales. Estas variaciones, adem√°s de a√±adir las dos nuevas funcionalidades, tambi√©n toma en cuenta las caracter√≠sticas propias de las im√°genes, como son la similitud entre p√≠xeles vecinos y las caracter√≠sticas espec√≠ficas de estos.\\
+
+El algoritmo de Handl tiene 3 fases. En la primera hace un primer preprocesamiento para obtener un conjunto de clases (conjuntos peque√±os de datos similares). Despu√©s coge datos al azar del conjunto completo dado y los coloca en las clases m√°s similares a ellos. De esta forma crea un conjunto de peque√±as clases de objetos similares con las que, tras un proceso de uni√≥n y refinamiento, se obtienen la clasificaci√≥n buscada.\\
+
+\subsection{Clasificaci√≥n de p√≠xles}
+Esta es la funcionalidad en la que destaca nuestro m√©todo ya que el uso de inteligencia artificial a trav√©s del m√©todo de la colonia de hormigas otorga un resultado de mayor calidad que otros m√©todos como veremos m√°s adelante.i\\
 
 Se desarrolla de forma muy parecida a la descrita anteriormente en el algoritmo de Handl, pero con algunas variaciones tanto en la estructura de los datos como en el procesado. \\
 
-Para nuestro caso especÌfico se cambian dos estructuras usadas en el algoritmo base, la primera es el concepto de clase, conjuntos de datos con los que se comparan los pÌxeles seleccionados, que en nuestro caso ser· sustituido por la memoria de la hormiga, siendo esta un conjunto del mismo tamaÒo que la paleta de colores deseada que contendr· pÌxeles y las posiciones de los mismos. La otra variaciÛn en la estructura de datos se encuentra en la imagen que se procesa, ya que en nuestro caso cada posiciÛn de la imagen podr· estar vacÌa, contener un pÌxel o una pila de pÌxeles.\\
+Para nuestro caso espec√≠fico se cambian dos estructuras usadas en el algoritmo base, la primera es el concepto de clase, conjuntos de datos con los que se comparan los p√≠xeles seleccionados, que en nuestro caso ser√° sustituido por la memoria de la hormiga, siendo esta un conjunto del mismo tama√±o que la paleta de colores deseada que contendr√° p√≠xeles y las posiciones de los mismos. La otra variaci√≥n en la estructura de datos se encuentra en la imagen que se procesa, ya que en nuestro caso cada posici√≥n de la imagen podr√° estar vac√≠a, contener un p√≠xel o una pila de p√≠xeles.\\
 
-Las divergencias en el procesado son sencillas, en nuestro algoritmo se hace un doble procesado, comparando en primer lugar el pÌxel con la memoria de la hormiga y en caso de que no se encuentre ning˙n elemento similar en esta, se procede a buscar en las posiciones cercanas al pÌxel, haciendo que la hormiga se desplace por la imagen buscando un pÌxel parecido al suyo. \\
+Las divergencias en el procesado son sencillas, en nuestro algoritmo se hace un doble procesado, comparando en primer lugar el p√≠xel con la memoria de la hormiga y en caso de que no se encuentre ning√∫n elemento similar en esta, se procede a buscar en las posiciones cercanas al p√≠xel, haciendo que la hormiga se desplace por la imagen buscando un p√≠xel parecido al suyo. \\
 
-De esta forma nuestro algoritmo de clasificaciÛn repite N veces los siguientes pasos:\\
+De esta forma nuestro algoritmo de clasificaci√≥n repite N veces los siguientes pasos:\\
 \begin{enumerate}
-    \item Elige un pÌxel al azar.\\
+    \item Elige un p√≠xel al azar.\\
     \item Busca un elemento parecido en la memoria de la hormiga\\
-    \item SI lo encuentra coloca el pÌxel seleccionado en la pila que se encuentra en la posiciÛn de este elemento en la imagen\\
-    \item SI NO, compara el pÌxel seleccionado con los elementos vecinos a Èl y si encuentra uno similar se aÒade a la pila de este.\\
+    \item SI lo encuentra coloca el p√≠xel seleccionado en la pila que se encuentra en la posici√≥n de este elemento en la imagen\\
+    \item SI NO, compara el p√≠xel seleccionado con los elementos vecinos a √©l y si encuentra uno similar se a√±ade a la pila de este.\\
 \end{enumerate}
-De esta forma, tras iterar un n˙mero determinado de veces se podr· encontrar la clasificaciÛn buscada en las posiciones a las que apuntan los elementos de la memoria de la hormiga.\\
+De esta forma, tras iterar un n√∫mero determinado de veces se podr√° encontrar la clasificaci√≥n buscada en las posiciones a las que apuntan los elementos de la memoria de la hormiga.\\
 
-\subsection{ElecciÛn y SustituciÛn de los colores a  partir de los clusters}
-Una vez clasificados los colores por el mÈtodo anterior, los otros dos pasos son sencillos y computacionalmente muy r·pidos. Por esta razÛn hemos considerado que durante la experimentaciÛn usaremos diversos mÈtodos estadÌsticos para llevar a cabo estas funcionalidades.\\
+\subsection{Elecci√≥n y Sustituci√≥n de los colores a  partir de los clusters}
+Una vez clasificados los colores por el m√©todo anterior, los otros dos pasos son sencillos y computacionalmente muy r√°pidos. Por esta raz√≥n hemos considerado que durante la experimentaci√≥n usaremos diversos m√©todos estad√≠sticos para llevar a cabo estas funcionalidades.\\
 
-En el primer caso debemos encontrar el pÌxel m·s significativo de un conjunto dado, para ello realizaremos experimentos usando distintas medidas de tendencia general, como la mediana y varios tipos de medias.\\
+En el primer caso debemos encontrar el p√≠xel m√°s significativo de un conjunto dado, para ello realizaremos experimentos usando distintas medidas de tendencia general, como la mediana y varios tipos de medias.\\
 
-En el caso de la sustituciÛn de colores no ser· necesaria este mÈtodo tan riguroso para encontrar la medida, ya que esta funcionalidad requiere una funciÛn que calcule la divergencia entre dos pÌxeles diferentes y para ello podemos utilizar la misma funciÛn de comparaciÛn de pÌxeles que se usa durante el algoritmo.\\
+En el caso de la sustituci√≥n de colores no ser√° necesaria este m√©todo tan riguroso para encontrar la medida, ya que esta funcionalidad requiere una funci√≥n que calcule la divergencia entre dos p√≠xeles diferentes y para ello podemos utilizar la misma funci√≥n de comparaci√≥n de p√≠xeles que se usa durante el algoritmo.\\
 
-\subsection{Detalles sobre los planteamientos matem·ticos}
+\subsection{Detalles sobre los planteamientos matem√°ticos}
+Para la realizaci√≥n del algoritmo descrito anteriormente es necesaria la especificaci√≥n matem√°tica de algunos conceptos citados. Estos conceptos son divergencia entre dos p√≠xeles y distancia entre un p√≠xel y sus vecinos.\\
 
-\section{ResoluciÛn Pr·ctica}
+Los p√≠xeles,en nuestro caso, est√°n compuesto de tres componentes (rojo, verde y azul), por lo que las funciones mas l√≥gicas l√≥gicas para utilizar son la distancia Eucl√≠dea y la distancia L1.\\
 
-\section{ExperimentaciÛn}
+Distancia Eucl√≠dea entre el p√≠xel i y el j ‚Üí \\ 
+Distancia L1 entre el p√≠xel i y el j  ‚Üí \\
+
+Estas opciones fueron decididas por lo bien que representan la distancia entre componentes de un vector y por la simplicidad de su c√°lculo, ya que esta ser√° la funci√≥n que m√°s veces llevaremos a cabo durante la ejecuci√≥n de nuestro algoritmo.\\
+
+Bas√°ndonos en un an√°lisis preliminar de estas funciones concluimos en que la distancia L1 produce resultados con menos distorsi√≥n que los encontrados con la distancia Eucl√≠dea.\\
+
+Para calcular la distancia ente un p√≠xel y sus vecinos tendremos en cuenta la divergencia entre el este p√≠xel y cada uno de sus vecinos,  pero tambi√©n tenemos que tener en cuenta que se dar√° la situaci√≥n en la que no existan alguno de los vecinos, ya anteriormente se han podido recoger estos p√≠xeles y soltar en otra posici√≥n.\\
+
+Distancia a los vecinos del p√≠xel i ‚Üí \\
+
+Los valores delta y alfa representan respectivamente el radio de percepci√≥n (cantidad de p√≠xeles m√°ximo que se comparan en cada direcci√≥n) y la influencia de la funci√≥n divergencia.\\
+
+Estos par√°metros se especificar√°n a un valor √≥ptimo durante la fase de experimentaci√≥n.\\
+\section{Resoluci√≥n Pr√°ctica}
+
+\section{Experimentaci√≥n}
 
 \section{Manual de usuario}
 
@@ -77,11 +108,11 @@ En el caso de la sustituciÛn de colores no ser· necesaria este mÈtodo tan riguro
 \noindent {\bf Anexo I: Tabla de tiempos}
 
 
-Se debe justificar el trabajo realizado por cada componente del grupo, comentando el tiempo total que cada miembro del grupo ha dedicado al trabajo (lo que puede implicar diferencia de notas obtenidas por los distintos miembros del grupo). El trabajo realizado debe ser de {\bf 78 horas por alumno}. Adem·s, debe haber un plan de trabajo detallado. Para esto ˙ltimo, se puede usar la tabla siguiente o bien documentos generados por la herramienta de gestiÛn de proyectos que se use, como Projetsii o Microsoft Project, por ejemplo.
+Se debe justificar el trabajo realizado por cada componente del grupo, comentando el tiempo total que cada miembro del grupo ha dedicado al trabajo (lo que puede implicar diferencia de notas obtenidas por los distintos miembros del grupo). El trabajo realizado debe ser de {\bf 78 horas por alumno}. Adem√°s, debe haber un plan de trabajo detallado. Para esto √∫ltimo, se puede usar la tabla siguiente o bien documentos generados por la herramienta de gesti√≥n de proyectos que se use, como Projetsii o Microsoft Project, por ejemplo.
 $$\begin{array}{|c|c|c|c|c|c|}
 \hline 
 \mbox{ Fecha de la
-reuniÛn }
+reuni√≥n }
 & \mbox{ Inicio }
 & \mbox{ Fin }
 &\mbox{ Tiempo
