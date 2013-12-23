@@ -1,8 +1,36 @@
-def initialize():
+from PIL import Image, ImageFilter 
+
+def initialize(imageURL):
     '''
     Data initializing. 
+    Variables:
+		alpha: Influence of similarity for the ant to drops the element.
+		dropTh: Drop threshold. Minimum threshold for dropping a pixel 
+		on the image.
+		memTh: Memory threshold. Minimum threshold for dropping a pixel 
+		which position is stored on the ant memory.
+		x: Percent of the longest path in the image that may be analized
+		y: Percent of total number of pixels that will be analized.
+		nIt1: Number of pixel that will be analized. 
+		kRange: Longest path for a single ant to look over. 
     '''
-
+	alpha = 1
+	dropTh= 0.6
+	memTh= 35
+	x = 20 
+	y = 10
+	m = matrixImage.size[0]
+	n = matrixImage.size[1]
+	nIt1 = m*n*Y/100 
+	kRange =(m+n)*x/100
+	image = Image.open(imageURL)
+    matrixImage = image.load()
+    matrixHeaps = Array()
+    for i in range(m):
+		for j in range(n):
+			matrixHeaps[i][j] = Array(matrixImage[i][j])
+	return matrixHeaps, alpha, dropTh, memTh, nIt1, kRange
+	
 def pixelSelect():
     '''
     Select a random position with a unless a pixel in his heap.
@@ -32,7 +60,7 @@ def antPalette(nIt1,kRange):
     '''
     Reduction of color palette in image based on ant colony
     '''
-    initialize()
+    initialize(imageURL)
     for i in range(nIt1):
         position = pixelSelect()
         droppedInAnt = antMemory(position)
