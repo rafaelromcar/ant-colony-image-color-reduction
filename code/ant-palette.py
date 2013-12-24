@@ -53,11 +53,32 @@ def antMemory(position):
     if you have added something to ant memory.
     '''
 
-def sameNeigh(position):
+def distanceFunc(pixelAct,pixelNeigh):
+	'''
+	Used for comparate pixels on the position of the ant memory and in the similarity function.
+	'''
+	return abs(pixelNeigh[0] - pixelAct[0]) + abs(pixelNeigh[1] - pixelAct[1]) + abs(pixelNeigh[2] - pixelAct[2])
+	
+def similarityFunc(matrixHeaps, position, alpha):
+	'''
+	Used for calculate the similarity between a pixel and his neighbours.
+	'''
+	sol = 0
+	pixelAct = matrixHeaps[position[0]][position[1]]
+	for i in range(position[0]-1, position[0]+2):
+		for j in range(position[1]-1, position[1]+2):
+			if not (i==position[0] and j==position[1]):
+			pixelNeigh = matrixHeaps[i][j]
+			sol+= (1-(distanceFunc(pixelAct,pixelNeigh)/alpha))
+	return sol
+	
+def sameNeigh(position, dropTh,alpha):
     '''
-    Check if the pixel in position is similar to his neighbourhood in a minimun condition.
+    Check if the pixel in position is similar to his neighbours in a minimun condition.
     Return a boolean state to indicate if it is similar or not.
     '''
+    droppedInImage = dropTh < similarityFunc(position, alpha)  
+    return droppedInImage
 
 def moveAndDropSimilarNeigh(position):
     '''
@@ -75,7 +96,7 @@ def antPalette(nIt1,kRange):
         droppedInAnt = antMemory(position)
         if not droppedInAnt:
             for j in range(kRange):
-                droppedInImage = sameNeigh(position)
+                droppedInImage = sameNeigh(matrixHeaps, position, alpha)
                 if droppedInImage:
                     break
                 else:
