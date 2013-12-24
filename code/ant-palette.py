@@ -27,10 +27,12 @@ def initialize(imageURL):
 	image = Image.open(imageURL)
     matrixImage = image.load()
     matrixHeaps = Array()
-    for i in range(m):
-		for j in range(n):
+    for i in range(n):
+		for j in range(m):
 			matrixHeaps[i][j] = Array(matrixImage[i][j])
-	return matrixHeaps, alpha, dropTh, memTh, nIt1, kRange, nColors
+	for i in range(nColors):
+		antMem[i] = []
+	return matrixHeaps, antMem, alpha, dropTh, memTh, nIt1, kRange, nColors
 	
 def pixelSelect(matrixHeaps):
     '''
@@ -46,7 +48,7 @@ def pixelSelect(matrixHeaps):
 	position = (i,j)
     return position
     
-def antMemory(matrixHeaps, position, antMem, memTh):
+def antMemory(matrixHeaps, position, antMem, nColors, memTh):
     '''
     Add the heap position of the actual heap to the ant memory if it is bigger than 
     any element(erase the smaller). If is not bigger, add the heap to the head of the
@@ -126,15 +128,15 @@ def antPalette(nIt1,kRange):
     '''
     Reduction of color palette in image based on ant colony
     '''
-    initialize(imageURL)
+    matrixHeaps, antMem, alpha, dropTh, memTh, nIt1, kRange, nColors = initialize(imageURL)
     for i in range(nIt1):
-        position = pixelSelect()
-        droppedInAnt = antMemory(position)
+        position = pixelSelect(matrixHeaps)
+        droppedInAnt = antMemory(matrixHeaps, position, antMem, nColors, memTh)
         if not droppedInAnt:
             for j in range(kRange):
-                droppedInImage = sameNeigh(matrixHeaps, position, alpha)
+                droppedInImage = sameNeigh(matrixHeaps, position, dropTh,alpha)
                 if droppedInImage:
                     break
                 else:
-                    position = moveAndDropSimilarNeigh(position)
+                    position = moveAndDropSimilarNeigh(matrixHeaps, position)
 
