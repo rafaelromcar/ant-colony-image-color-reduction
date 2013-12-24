@@ -23,13 +23,14 @@ def initialize(imageURL):
 	m = matrixImage.size[1]
 	nIt1 = m*n*Y/100 
 	kRange =(m+n)*x/100
+	nColors = 256
 	image = Image.open(imageURL)
     matrixImage = image.load()
     matrixHeaps = Array()
     for i in range(m):
 		for j in range(n):
 			matrixHeaps[i][j] = Array(matrixImage[i][j])
-	return matrixHeaps, alpha, dropTh, memTh, nIt1, kRange
+	return matrixHeaps, alpha, dropTh, memTh, nIt1, kRange, nColors
 	
 def pixelSelect(matrixHeaps):
     '''
@@ -45,13 +46,34 @@ def pixelSelect(matrixHeaps):
 	position = (i,j)
     return position
     
-def antMemory(position):
+def antMemory(matrixHeaps, position, antMem, memTh):
     '''
     Add the heap position of the actual heap to the ant memory if it is bigger than 
     any element(erase the smaller). If is not bigger, add the heap to the head of the
     most similar heap in a minimun condition. Return a boolen state wich information
     if you have added something to ant memory.
     '''
+    actHeap = matrixHeaps[position[0], position[1]]
+    minLength = len(matrixHeaps[position[0], position[1]])
+    minSim = memTh
+    changeCompleteHeap = 0
+    addElement = 0
+	for i in range(nColors):
+		antHeap = antMem[i]
+		if len(antHeap) < minLength:
+			minLength = len(antHeap)
+			heapToChange = antHeap
+			changeCompleteHeap = 1
+		else minSim > distanceFunc(actHeap[-1], antHeap[-1]):
+			minSim = distanceFunc(actHeap[-1], antHeap[-1])
+			heapToChange = antHeap
+			addElement = 1
+	if changeCompleteHeap:
+		heapToChange = actHeap
+	elif addElement:
+		heapToChange.append(actHeap[-1])
+	return changeCompleteHeap or addElement
+		
     
 
 def distanceFunc(pixelAct,pixelNeigh):
@@ -62,7 +84,7 @@ def distanceFunc(pixelAct,pixelNeigh):
 	
 def similarityFunc(matrixHeaps, position, alpha):
 	'''
-	Used for calculate the similarity between a pixel and his neighbours.
+	Used for calculate the similarity between the pixel a pixel and his neighbours.
 	'''
 	sol = 0
 	pixelAct = matrixHeaps[position[0]][position[1]][-1]
@@ -86,7 +108,7 @@ def moveAndDropSimilarNeigh(matrixHeaps, position):
     Look for the most similar pixel near position and drop the pixel of position
     there.
     '''
-    minDist = matrixHeaps.size[0]+matrixHeaps.size[1]
+    minDist = 765  #Maxmimum distance between two RGB pixels
     pixelAct = matrixHeaps[position[0]][position[1]][-1]
     for i in range(position[0]-1, position[0]+2):
 		for j in range(position[1]-1, position[1]+2):
