@@ -52,6 +52,7 @@ def antMemory(position):
     most similar heap in a minimun condition. Return a boolen state wich information
     if you have added something to ant memory.
     '''
+    
 
 def distanceFunc(pixelAct,pixelNeigh):
 	'''
@@ -64,27 +65,40 @@ def similarityFunc(matrixHeaps, position, alpha):
 	Used for calculate the similarity between a pixel and his neighbours.
 	'''
 	sol = 0
-	pixelAct = matrixHeaps[position[0]][position[1]]
+	pixelAct = matrixHeaps[position[0]][position[1]][-1]
 	for i in range(position[0]-1, position[0]+2):
 		for j in range(position[1]-1, position[1]+2):
 			if not (i==position[0] and j==position[1]):
-			pixelNeigh = matrixHeaps[i][j]
+			pixelNeigh = matrixHeaps[i][j][-1]
 			sol+= (1-(distanceFunc(pixelAct,pixelNeigh)/alpha))
 	return sol
 	
-def sameNeigh(position, dropTh,alpha):
+def sameNeigh(matrixHeaps, position, dropTh,alpha):
     '''
     Check if the pixel in position is similar to his neighbours in a minimun condition.
     Return a boolean state to indicate if it is similar or not.
     '''
-    droppedInImage = dropTh < similarityFunc(position, alpha)  
+    droppedInImage = dropTh < similarityFunc(matrixHeaps, position, alpha)  
     return droppedInImage
 
-def moveAndDropSimilarNeigh(position):
+def moveAndDropSimilarNeigh(matrixHeaps, position):
     '''
     Look for the most similar pixel near position and drop the pixel of position
     there.
     '''
+    minDist = matrixHeaps.size[0]+matrixHeaps.size[1]
+    pixelAct = matrixHeaps[position[0]][position[1]][-1]
+    for i in range(position[0]-1, position[0]+2):
+		for j in range(position[1]-1, position[1]+2):
+			if not (i==position[0] and j==position[1]):
+			heapNeigh = matrixHeaps[i][j]
+			actDis = distanceFunc(HeapAct[-1],HeadpSim[-1]):
+			if minDist > actDis:
+				minDist = actDis
+				pixelSimPos = (i,j)
+				HeadpSim = HeapNeigh
+	heapSim.append(HeapAct.pop())
+	return pixelSimPos
 
 def antPalette(nIt1,kRange):
     '''
